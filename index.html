@@ -121,6 +121,32 @@
       //      * When engaging the safety, return "Safety enabled!"
       //      * When disengaging the safety, return "Safety disabled!"
       // 🌟 HINT: instances need to keep track of their maximum capacity as well as their current capacity
+        constructor(totalProjectiles){
+          this.totalProjectiles = totalProjectiles;
+          this.safetyOn = true;
+          this.currentAmmo = totalProjectiles;
+        }
+        
+        shoot(){
+          //let safetyOn = true;
+          if(this.safetyOn || this.currentAmmo === 0){return 'Click!'}
+          else {this.currentAmmo--; return 'Bang!'}
+        }
+        reload(num){
+          if((num<=0) || (typeof(num) !== 'number')){return 'Error reloading!'}
+          if(this.currentAmmo + num < this.totalProjectiles){
+            this.currentAmmo += num;
+            return `${this.currentAmmo} projectiles left!`;
+          }
+          else {
+            this.currentAmmo = this.totalProjectiles;
+            return `${this.currentAmmo} projectiles left!`
+          }
+        }
+        toggleSafety(){
+          if(this.safetyOn){ this.safetyOn = !this.safetyOn; return 'Safety disabled!'}
+          else{this.safetyOn = !this.safetyOn; return 'Safety enabled!'}
+        }
 
     }
 
