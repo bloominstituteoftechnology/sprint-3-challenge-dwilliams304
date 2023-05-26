@@ -169,17 +169,21 @@
       constructor(text, charPerPage){
         this.text = text;
         this.charPerPage = charPerPage;
-        this.currentPage = 1;
+        this.currentPage = 1; //Current page
       }
       next(){
-        let startIndex = (this.currentPage - 1) * this.charPerPage;
-        let nextIndex = startIndex + this.charPerPage;
-        let pageText = this.text.substring(startIndex, nextIndex);
-        this.currentPage++;
-        if(pageText.length === 0){
+        let startIndex = (this.currentPage - 1) * this.charPerPage; //The index we start at will be currentpage - 1(for the index of 0)
+        //multiplied by the amount of chars per page. So we start at index of 0, because the currentPage (which is 1) minus 1 = 0;
+        //And anything multiplied by or into 0 just equals 0.
+        let nextIndex = startIndex + this.charPerPage; //The nextIndex/index we want to end on if the startIndex + the amount of chars
+        //we want to get to. So if we want each page to have 3 chars, we go from index 0 -> 3, 3 -> 6 essentially
+        let copyText = this.text.slice(startIndex, nextIndex); //Our copied text will be the text we received sliced from the
+        //startIndex we initialized earlier, all the way up to the nextIndex we initiazlied.
+        this.currentPage++; //Add 1 to the current page.
+        if(copyText.length === 0){ //If the next page doesn't have any text - return null
           return null;
         }
-        return pageText;
+        return copyText;
       }
         
     }
@@ -216,14 +220,34 @@
       //      console.log(list) // prints ["a"]
       // 👉 HINT: if you are not feeling confident with map and filter, solve the problem with for loops,
       //      and with the piece of mind of all tests passing, refactor to use map/filter
-        constructor(){
-          
+        constructor(...names){
+          this.ants = names.map(name => ({name, health: 100})) //Create an array of ants
+          //Using .map, we loop through each name (in names), and set the name equal to that, and the health to 100 for each
+          //ant that we created.
         }
         work(){
-          
+          if (this.ants.length === 0) { //If there are no ants, return below
+            return "No ants here. Did you work them to death?";
+          }
+          let returnValue = `${this.ants.length} ants starting work!`; //Otherwise, return this string with the amount of ants available
+          for (let i = 0; i < this.ants.length; i++) { //We loop through every ant in the array
+            this.ants[i].health -= 20; //For each ant we found, subtract their health by 20.
+            if (this.ants[i].health <= 0) { //If their health bcomes 0 or less, remove them at their index
+              this.ants.splice(i, 1);
+              i--; //And if we remove an ant, adjust the current index we are at within the ant array.
+            }
+          }
+        return returnValue; //Return the value we initialized above.
         }
         feed(antName){
-
+          let filteredAnts = this.ants.filter(ant => ant.name === antName); //We create a new array with all the ants that
+          //Have a matching name to the argument we entered into feed. -> Basically if we enter feed('Jess'), we create an array
+          //With an ant/every ant with that na,e
+          if(filteredAnts.length > 0){ //If we did find any ants with a matching name
+            filteredAnts.forEach(ant => (ant.health += 15)); //Increase each ant's health in the ant array by 15
+            return 'Yum!' //Return Yum!
+          }else{ return `${antName} not found!`; } //If no ants were filtered, the name we gave was bad - therefore return that
+          //we did not find any ant with that name.
         }
         
     }
