@@ -166,7 +166,22 @@
       //    ebook.next() // returns null
       // 🌟 HINT: remember about the `slice` method of arrays
       // ❗ Feel free to implement `back`, although this is not required nor graded
-
+      constructor(text, charPerPage){
+        this.text = text;
+        this.charPerPage = charPerPage;
+        this.currentPage = 1;
+      }
+      next(){
+        let startIndex = (this.currentPage - 1) * this.charPerPage;
+        let nextIndex = startIndex + this.charPerPage;
+        let pageText = this.text.substring(startIndex, nextIndex);
+        this.currentPage++;
+        if(pageText.length === 0){
+          return null;
+        }
+        return pageText;
+      }
+        
     }
 
     // 👉 CHALLENGE 4 AntFarm
@@ -201,7 +216,16 @@
       //      console.log(list) // prints ["a"]
       // 👉 HINT: if you are not feeling confident with map and filter, solve the problem with for loops,
       //      and with the piece of mind of all tests passing, refactor to use map/filter
+        constructor(){
+          
+        }
+        work(){
+          
+        }
+        feed(antName){
 
+        }
+        
     }
 
     // 🧪 TESTS, do not make any changes below this line ===================
